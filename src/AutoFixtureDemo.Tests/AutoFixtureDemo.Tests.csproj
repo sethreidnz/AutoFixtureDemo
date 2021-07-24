@@ -25,7 +25,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AutoFixtureDemo.Business\AutoFixtureDemo.Business.csproj" />
+    <ProjectReference Include="..\AutoFixtureDemo\AutoFixtureDemo.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Fixtures" />
   </ItemGroup>
 
 </Project>
