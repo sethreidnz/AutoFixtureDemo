@@ -1,9 +1,9 @@
 using System;
 using AutoFixtureDemo.Business.Models;
 
-namespace AutoFixtureDemo.Business.Services
+namespace AutoFixtureDemo.Business.Interfaces
 {
-  public interface IUserService
+  public interface IUserRepository
   {
     public UserModel GetUserById(Guid userId);
   }
