@@ -1,0 +1,38 @@
+name: XeroTaxApp.Web - Build and test
+
+env:
+  DotnetVersion: 5.x.x
+  ProjectDirectory: src/AutoFixtureDemo.Business.Tests
+
+on:
+  push:
+    paths:
+      - ".github/workflows/unit-test.yml"
+      - "src/**"
+    branches:
+      - main
+  pull_request:
+    paths:
+      - ".github/workflows/unit-test.yml"
+      - "src/**"
+    branches:
+      - main
+
+jobs:
+  unit-test:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{env.DotnetVersion}}
+      - uses: actions/cache@v2
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: dotnet test ./src
+        run: dotnet test ./src
