@@ -109,3 +109,15 @@ public async Task CreateUser_GivenValidUser_ShouldCreateUser(
 Notice the use of the `[Frozen]` attribute **and** that the mock come before the service that depends on it. This attribute tells AutoFixture that if that specific service, `Mock<IUserRepository>` is asked for again in this test then return this very same instance. Meaning that when the next line we ask for `UserService sut` AutoFixture will resolve the dependency of `IUserRepository` using the mock that was created using the `[Frozen]` attribute.
 
 This lets you then do the setup and verification on these mocks during your test, but you never have to do the dance of passing the mocks to the constructor of your system under test. This is good as the constructor is an implementation detail that shouldn't really be in your test. It also means if you add new dependencies to `IUserService` you don't have to update your tests except where you want to mock out the new dependency.
+
+#### Injecting real services
+
+Since we are essentially using AutoFixture's `IFixture` as a dependency container we can tell it to resolve real services if we want as well. This can be useful for pure logic like mappers and validators because you can use the real instance and test them for free while testing other code that consumes them. Since they have no dependencies, and you are using AutoFixture to generate realistic test data, the validation should pass and you are getting closer to testing the method or service as it's used in your application.
+
+You can see an example of this in [AutoFixture attribute class for these tests](src/AutoFixtureDemo.Tests/4AutoFixtureAndAutoMoq/AutoFixture.cs):
+
+```csharp
+      fixture.Register<IValidator<UserModel>>(() => new UserModelValidator());
+```
+
+Here I am telling AutoFixture when it gets a request for `IValidator<UserModel>` to return a new instance of `UserModelValidator`.
