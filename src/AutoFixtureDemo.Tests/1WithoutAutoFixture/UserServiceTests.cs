@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using AutoFixtureDemo.Interfaces;
 using AutoFixtureDemo.Models;
@@ -15,7 +16,8 @@ namespace AutoFixtureDemo.Tests._1WithoutAutoFixture
     {
       // arrange
       var userRepositoryMock = new Mock<IUserRepository>();
-      var sut = new UserService(userRepositoryMock.Object);
+      var userValidator = new UserModelValidator();
+      var sut = new UserService(userRepositoryMock.Object, userValidator);
 
       // act/assert
       sut.Should().BeAssignableTo<IUserService>();
@@ -32,11 +34,12 @@ namespace AutoFixtureDemo.Tests._1WithoutAutoFixture
         Email = "email@example.com"
       };
       var userRepositoryMock = new Mock<IUserRepository>();
+      var userValidator = new UserModelValidator();
       userRepositoryMock.Setup(s => s.GetUserByEmail(It.IsAny<string>()))
         .Returns(Task.FromResult<UserModel>(null));
       userRepositoryMock.Setup(s => s.CreateUser(It.IsAny<UserModel>()))
         .Returns(Task.FromResult(user));
-      var sut = new UserService(userRepositoryMock.Object);
+      var sut = new UserService(userRepositoryMock.Object, userValidator);
 
       // act/assert
       var result = await sut.CreateUser(user);
@@ -59,24 +62,35 @@ namespace AutoFixtureDemo.Tests._1WithoutAutoFixture
       // arrange
       var userWithoutUserName = new UserModel
       {
+        Id = Guid.NewGuid(),
         UserName = string.Empty,
         Email = "email@example.com"
       };
+      var userInvalidEmail = new UserModel
+      {
+        Id = Guid.NewGuid(),
+        UserName = "ExampleUser",
+        Email = "invalid email",
+      };
       var userWithoutEmail = new UserModel
       {
+        Id = Guid.NewGuid(),
         UserName = "ExampleUser",
         Email = string.Empty,
       };
       var userRepositoryMock = new Mock<IUserRepository>();
-      var sut = new UserService(userRepositoryMock.Object);
+      var userValidator = new UserModelValidator();
+      var sut = new UserService(userRepositoryMock.Object, userValidator);
 
       // act/assert
       Func<Task> createWithoutUserName = async () => await sut.CreateUser(userWithoutUserName);
+      Func<Task> createWithInvalidEmail = async () => await sut.CreateUser(userWithoutEmail);
       Func<Task> createWithoutEmail = async () => await sut.CreateUser(userWithoutEmail);
 
       // assert
-      await createWithoutEmail.Should().ThrowAsync<ArgumentException>();
-      await createWithoutUserName.Should().ThrowAsync<ArgumentException>();
+      await createWithoutEmail.Should().ThrowAsync<FluentValidation.ValidationException>();
+      await createWithInvalidEmail.Should().ThrowAsync<FluentValidation.ValidationException>();
+      await createWithoutUserName.Should().ThrowAsync<FluentValidation.ValidationException>();
       userRepositoryMock.Verify(s => s.CreateUser(It.Is<UserModel>(v =>
           v.UserName == userWithoutUserName.UserName &&
           v.Email == userWithoutUserName.Email)),
@@ -89,18 +103,21 @@ namespace AutoFixtureDemo.Tests._1WithoutAutoFixture
       // arrange
       var userToCreate = new UserModel
       {
+        Id = Guid.NewGuid(),
         UserName = "ExampleUser",
         Email = "email@example.com"
       };
       var existingUser = new UserModel
       {
+        Id = Guid.NewGuid(),
         UserName = "ExampleUser",
         Email = "email@example.com"
       };
       var userRepositoryMock = new Mock<IUserRepository>();
       userRepositoryMock.Setup(s => s.GetUserByEmail(It.IsAny<string>()))
         .Returns(Task.FromResult(userToCreate));
-      var sut = new UserService(userRepositoryMock.Object);
+      var userValidator = new UserModelValidator();
+      var sut = new UserService(userRepositoryMock.Object, userValidator);
 
       // act/assert
       Func<Task> createUser = async () => await sut.CreateUser(userToCreate);

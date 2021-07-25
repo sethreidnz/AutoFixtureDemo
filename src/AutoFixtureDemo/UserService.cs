@@ -2,24 +2,24 @@ using System;
 using System.Threading.Tasks;
 using AutoFixtureDemo.Interfaces;
 using AutoFixtureDemo.Models;
+using FluentValidation;
 
 namespace AutoFixtureDemo
 {
   public class UserService : IUserService
   {
     private readonly IUserRepository _userRepository;
+    private readonly IValidator<UserModel> _userValidator;
 
-    public UserService(IUserRepository userRepository)
+    public UserService(IUserRepository userRepository, IValidator<UserModel> userValidator)
     {
       _userRepository = userRepository;
+      _userValidator = userValidator;
     }
 
     public async Task<UserModel> CreateUser(UserModel user)
     {
-      if (string.IsNullOrWhiteSpace(user.UserName) || string.IsNullOrWhiteSpace(user.Email))
-      {
-        throw new ArgumentException();
-      }
+      _userValidator.ValidateAndThrow(user);
 
       var existingUser = await _userRepository.GetUserByEmail(user.Email);
       if (existingUser != null)
