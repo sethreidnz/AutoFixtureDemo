@@ -15,13 +15,13 @@ The solution is made up of two projects:
 - [src/AutoFixtureDemo](src/AutoFixtureDemo)
 - [src/AutoFixtureDemo.Tests](src/AutoFixtureDemo.Tests)
 
-The code that we are testing is a service called `UserService` in `src/AutoFixtureDemo/UserService.cs`. It is a service with a dependency on a repository `IUserRepository` which can query and persist data from a data store. `IUserRepository` does not have an implementation as I am mocking it out in the tests.
+The code that we are testing is a service called `UserService` in `src/AutoFixtureDemo/UserService.cs`. It is a service with a dependency on a repository `IUserRepository` which can query and persist data from a data store. Note that `IUserRepository` does not have an implementation as I am mocking it out in the tests.
 
 The tests are written four times each to illustrate the various features of AutoFixture and the AutoFixture ecosystem. There are three packages that This project uses provided by AutoFixture and it is easier to understand how they all fit together looking at them being introduced separately.
 
 ### The tests
 
-Below are some details to help you understand what is happening between each re-write of the tests. But first in order to run the test you can run the following from a terminal:
+Below are some details to help you understand what is happening between each re-write of the tests. But first in order to run the tests run the following from the command line:
 
 ```
 cd src/AutoFixtureDemo.Tests
