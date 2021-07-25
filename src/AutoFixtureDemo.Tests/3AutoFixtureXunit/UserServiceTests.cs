@@ -23,20 +23,22 @@ namespace AutoFixtureDemo.Tests._3AutoFixtureXunit
     }
 
     [Theory, AutoMoq]
-    public void UserService_IsIUserService(UserService sut)
+    public void UserService_IsIUserService()
     {
       // arrange
+      var userValidator = new UserModelValidator();
+      var userRepositoryMock = new Mock<IUserRepository>();
+      var sut = new UserService(userRepositoryMock.Object, userValidator);
 
       // act/assert
       sut.Should().BeAssignableTo<IUserService>();
     }
 
     [Theory, AutoMoq]
-    public async Task CreateUser_GivenValidUser_ShouldCreateUser(
-      UserModelValidator userValidator,
-      UserModel user)
+    public async Task CreateUser_GivenValidUser_ShouldCreateUser(UserModel user)
     {
       // arrange
+      var userValidator = new UserModelValidator();
       var userRepositoryMock = new Mock<IUserRepository>();
       userRepositoryMock.Setup(s => s.GetUserByEmail(It.IsAny<string>()))
         .Returns(Task.FromResult<UserModel>(null));
