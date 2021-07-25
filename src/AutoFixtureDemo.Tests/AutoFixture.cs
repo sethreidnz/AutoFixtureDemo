@@ -1,13 +1,15 @@
+using System;
 using AutoFixture;
 using AutoFixture.AutoMoq;
 using AutoFixture.Xunit2;
+using AutoFixtureDemo.Models;
+using FluentValidation;
 
 namespace AutoFixtureDemo.Tests
 {
-  
-  public class AutoMoqData : AutoDataAttribute
+  public class AutoMoq : AutoDataAttribute
   {
-    public AutoMoqData() : base(GetDefaultFixture)
+    public AutoMoq() : base(GetDefaultFixture)
     {
     }
 
@@ -15,6 +17,7 @@ namespace AutoFixtureDemo.Tests
     {
       var autoMoqCustomization = new AutoMoqCustomization();
       var fixture = new Fixture().Customize(autoMoqCustomization);
+      fixture.Register<IValidator<UserModel>>(() => new UserModelValidator());
       return fixture;
     }
   }

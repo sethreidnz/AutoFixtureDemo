@@ -1,5 +1,5 @@
-using AutoFixtureDemo.Business;
-using AutoFixtureDemo.Business.Interfaces;
+using AutoFixture.Xunit2;
+using AutoFixtureDemo.Interfaces;
 using FluentAssertions;
 using Xunit;
 
@@ -7,7 +7,7 @@ namespace AutoFixtureDemo.Tests._3AutoFixtureXunit
 {
   public class UserServiceTests
   {
-    [Theory, AutoMoqData]
+    [Theory, AutoMoq]
     public void UserService_IsIUserService(UserService sut)
     {
       // arrange

@@ -1,10 +1,11 @@
 using System;
-using AutoFixtureDemo.Business.Models;
+using System.Threading.Tasks;
+using AutoFixtureDemo.Models;
 
-namespace AutoFixtureDemo.Business.Interfaces
+namespace AutoFixtureDemo.Interfaces
 {
   public interface IUserService
   {
-    public UserModel GetUserById(Guid userId);
+    Task<UserModel> CreateUser(UserModel user);
   }
 }

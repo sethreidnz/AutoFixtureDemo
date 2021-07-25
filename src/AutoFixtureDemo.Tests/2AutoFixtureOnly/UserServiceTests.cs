@@ -1,5 +1,5 @@
-using AutoFixtureDemo.Business;
-using AutoFixtureDemo.Business.Interfaces;
+using AutoFixtureDemo.Interfaces;
+using AutoFixtureDemo.Models;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -13,7 +13,8 @@ namespace AutoFixtureDemo.Tests._2AutoFixtureOnly
     {
       // arrange
       var userRepositoryMock = new Mock<IUserRepository>();
-      var sut = new UserService(userRepositoryMock.Object);
+      var userValidator = new UserModelValidator();
+      var sut = new UserService(userRepositoryMock.Object, userValidator);
 
       // act/assert
       sut.Should().BeAssignableTo<IUserService>();
