@@ -117,7 +117,7 @@ Since we are essentially using AutoFixture's `IFixture` as a dependency containe
 You can see an example of this in [AutoFixture attribute class for these tests](src/AutoFixtureDemo.Tests/4AutoFixtureAndAutoMoq/AutoFixture.cs):
 
 ```csharp
-      fixture.Register<IValidator<UserModel>>(() => new UserModelValidator());
+fixture.Register<IValidator<UserModel>>(() => new UserModelValidator());
 ```
 
 Here I am telling AutoFixture when it gets a request for `IValidator<UserModel>` to return a new instance of `UserModelValidator`.
