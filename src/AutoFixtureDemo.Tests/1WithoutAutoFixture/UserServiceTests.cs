@@ -41,7 +41,7 @@ namespace AutoFixtureDemo.Tests._1WithoutAutoFixture
         .Returns(Task.FromResult(user));
       var sut = new UserService(userRepositoryMock.Object, userValidator);
 
-      // act/assert
+      // act
       var result = await sut.CreateUser(user);
 
       // assert
@@ -82,7 +82,7 @@ namespace AutoFixtureDemo.Tests._1WithoutAutoFixture
       var userValidator = new UserModelValidator();
       var sut = new UserService(userRepositoryMock.Object, userValidator);
 
-      // act/assert
+      // act
       Func<Task> createWithoutUserName = async () => await sut.CreateUser(userWithoutUserName);
       Func<Task> createWithInvalidEmail = async () => await sut.CreateUser(userWithoutEmail);
       Func<Task> createWithoutEmail = async () => await sut.CreateUser(userWithoutEmail);
@@ -119,7 +119,7 @@ namespace AutoFixtureDemo.Tests._1WithoutAutoFixture
       var userValidator = new UserModelValidator();
       var sut = new UserService(userRepositoryMock.Object, userValidator);
 
-      // act/assert
+      // act
       Func<Task> createUser = async () => await sut.CreateUser(userToCreate);
 
       // assert
