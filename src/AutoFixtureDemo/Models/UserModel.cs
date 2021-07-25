@@ -6,9 +6,7 @@ namespace AutoFixtureDemo.Models
   public class UserModel
   {
     public Guid Id { get; set; }
-
     public string UserName { get; set; }
-
     public string Email { get; set; }
   }
 
@@ -17,11 +15,12 @@ namespace AutoFixtureDemo.Models
     public UserModelValidator()
     {
       RuleFor(v => v.Id)
-        .NotEmpty();
+      .NotEmpty();
       RuleFor(v => v.UserName)
-        .NotEmpty();
+      .NotEmpty();
       RuleFor(v => v.Email)
-        .EmailAddress();
+      .NotEmpty()
+      .EmailAddress();
     }
   }
 }
