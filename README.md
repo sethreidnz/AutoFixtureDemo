@@ -34,17 +34,17 @@ The first tests are regular unit tests using Xunit2, Moq and FluentAssertions. T
 
 ### AutoFixture only
 
-The first set of tests using AutoFixture focus simply on the raw AutoFixture API [here](src/AutoFixtureDemo.Tests/2AutoFixtureOnly/UserServiceTests.cs). Notice that in the constructor an `IFixture` is instanciated manually. Then the fixture is configured to generate the `UserModel` correctly by using the method `IFixture.Create<T>` to create an email address using AutoFixtures built in generator for `System.Net.Mail.MailAddress`. This means I can have AutoFixture generate realistic data that will still pass my business validation rules but allow me not to have to manually generate values or hard code them.
+The first set of tests using AutoFixture focus simply on the raw AutoFixture API [here](src/AutoFixtureDemo.Tests/2AutoFixtureOnly/UserServiceTests.cs). Notice that in the constructor an `IFixture` is instantiated manually. Then the fixture is configured to generate the `UserModel` correctly by using the method `IFixture.Create<T>` to create an email address using AutoFixtures built in generator for `System.Net.Mail.MailAddress`. This means I can have AutoFixture generate realistic data that will still pass my business validation rules but allow me not to have to manually generate values or hard code them.
 
 Then in the tests instead of having to manually create the `UserModel` instances I use `IFixture.Create<T>` to create a generated `UserModel`. Although this is slight improvement, it would be nice if we didn't have to manually create the fixture.
 
 ### AutoFixture + AutoFixture.Xunit2
 
-AutoFxiture.Xunit2 is a package that integrates AutoFixture with Xunits `[Theory]` attribute. What this means is that you can decorate your test with a custom attribute that you create which is responsible for instantiating and configuring the default fixture, and returning it for use in the tests using the `[Theory]` attribute.
+AutoFixture.Xunit2 is a package that integrates AutoFixture with Xunit's `[Theory]` attribute. What this means is that you can decorate your test with a custom attribute that you create which is responsible for instantiating and configuring the default fixture, and returning it for use in the tests using the `[Theory]` attribute.
 
 This can be seen in the file [AutoFixture.cs](src/AutoFixtureDemo.Tests/3AutoFixtureXunit/AutoFixture.cs) which defines the attribute class `AutoMoq` which essentially moves the `IFixture` configuration from the constructor of the test, to this central location which all your tests can use.
 
-This is then used in the test [here](src/AutoFixtureDemo.Tests/3AutoFixtureXunit/UserServiceTests.cs) by decorating the tests with `[Thoery, AutoMoq]` instead of `Fact`.
+This is then used in the test [here](src/AutoFixtureDemo.Tests/3AutoFixtureXunit/UserServiceTests.cs) by decorating the tests with `[Theory, AutoMoq]` instead of `Fact`.
 
 The final step is now instead of manually using the `IFixture` to create the values, you can add parameters to the test method and AutoFixture.Xunit2 will take care of generating the values. For example:
 
