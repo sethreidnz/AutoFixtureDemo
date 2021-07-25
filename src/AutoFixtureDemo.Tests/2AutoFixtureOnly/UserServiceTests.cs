@@ -1,8 +1,9 @@
-using AutoFixtureDemo.Business.Services;
+using AutoFixtureDemo.Interfaces;
 using FluentAssertions;
+using Moq;
 using Xunit;
 
-namespace AutoFixtureDemo.Business.Tests.Services._1WithoutAutoFixture
+namespace AutoFixtureDemo.Tests._2AutoFixtureOnly
 {
   public class UserServiceTests
   {
@@ -10,7 +11,8 @@ namespace AutoFixtureDemo.Business.Tests.Services._1WithoutAutoFixture
     public void UserService_IsIUserService()
     {
       // arrange
-      var sut = new UserService();
+      var userRepositoryMock = new Mock<IUserRepository>();
+      var sut = new UserService(userRepositoryMock.Object);
 
       // act/assert
       sut.Should().BeAssignableTo<IUserService>();

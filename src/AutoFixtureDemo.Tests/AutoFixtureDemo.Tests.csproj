@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -25,7 +24,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AutoFixtureDemo.Business\AutoFixtureDemo.Business.csproj" />
+    <ProjectReference Include="..\AutoFixtureDemo\AutoFixtureDemo.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Fixtures" />
   </ItemGroup>
 
 </Project>
