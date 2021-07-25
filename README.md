@@ -19,7 +19,7 @@ The code that we are testing is a service called `UserService` in `src/AutoFixtu
 
 The tests are written four times each to illustrate the various features of AutoFixture and the AutoFixture ecosystem.
 
-### The tests
+## The tests
 
 Below are some details to help you understand what is happening between each re-write of the tests. But first in order to run the tests run the following from the command line:
 
@@ -28,7 +28,7 @@ cd src/AutoFixtureDemo.Tests
 npm run test
 ```
 
-#### Without AutoFixture
+### Without AutoFixture
 
 The first tests are regular unit tests using Xunit2, Moq and FluentAssertions. These can be found [here](src/AutoFixtureDemo.Tests/1WithoutAutoFixture/UserServiceTests.cs).
 
